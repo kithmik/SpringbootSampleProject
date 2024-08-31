@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springbootdemo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springbootdemo
+  template:
+    metadata:
+      labels:
+        app: springbootdemo
+    spec:
+      containers:
+      - name: springbootdemo
+        image: kithmik143/springbootdemo:latest
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+          readOnly: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: springbootdemo-config
+          items:
+          - key: application.properties
+            path: application.properties

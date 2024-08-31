@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: springbootdemo-config
+data:
+  application.properties: |
+    server.port=9090
+    custom.message=👋 Hello from ConfigMap!

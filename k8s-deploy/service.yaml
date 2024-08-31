@@ -1,0 +1,41 @@
+# service.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springbootdemo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springbootdemo
+  template:
+    metadata:
+      labels:
+        app: springbootdemo
+    spec:
+      containers:
+        - name: springbootdemo
+          image: kithmik143/springbootdemo:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: springbootdemo-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springbootdemo-service
+spec:
+  selector:
+    app: springbootdemo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9090
+  type: NodePort
